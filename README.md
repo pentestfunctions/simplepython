@@ -26,40 +26,40 @@ from simple_python import *
 ## Available Functions:
 
 ```
-clear_screen
-count_lines
-decode_string
-extract_domain
-fetch_web_page
-find_and_replace_in_file
-get_current_date
-get_current_datetime
-get_current_time
-get_data_type
-get_domain_archive
-get_function_info
-load_file
-lowercase_input
-nmap_all
-nmap_disable_ping_all
-nmap_disable_ping_quick
-nmap_quick
-port_scanner
-print_all_functions
-print_alternating_colors
-print_ascii_art
-print_data_type
-print_fancy_menu
-print_green
-print_lines
-print_red
-run_command
-search_string
-send_discord_webhook
-site_software
-take_screenshot_of_monitor
-uppercase_input
-write_file
+clear_screen()
+count_lines(filepath)
+decode_string(target_string)
+extract_domain(url)
+fetch_web_page(url)
+find_and_replace_in_file(filepath, find_str, replace_str)
+get_current_date()
+get_current_datetime()
+get_current_time()
+get_data_type(data)
+get_domain_archive(domain)
+get_function_info(function)
+load_file(filepath)
+lowercase_input(input_string)
+nmap_all(target)
+nmap_disable_ping_all(target)
+nmap_disable_ping_quick(target)
+nmap_quick(target)
+port_scanner(remoteServer)
+print_all_functions()
+print_alternating_colors(input_string)
+print_ascii_art(filename)
+print_data_type(data)
+print_fancy_menu(name='default name')
+print_green(text)
+print_lines(filepath)
+print_red(text)
+run_command(command)
+search_string(input_data, search_term)
+send_discord_webhook(webhook_url, content, username='Default Bot Name', avatar_url='https://i.imgur.com/8nLFCVP.png', embeds=None)
+site_software(target)
+take_screenshot_of_monitor(monitor_number)
+uppercase_input(input_string)
+write_file(filepath, content)
 ```
 
 ## Features 🌟
