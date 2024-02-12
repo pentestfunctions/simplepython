@@ -14,14 +14,15 @@ import tempfile
 
 def print_all_functions():
     """
-    Prints all function names and their docstrings defined in the current module.
+    Prints all function names and their signatures defined in the current module to show how they might be used.
     """
     current_module = sys.modules[__name__]  # Get a reference to the current module
     functions = inspect.getmembers(current_module, inspect.isfunction)  # Retrieve all functions in the module
-    print(f"Available Functions:")
+    print(f"Available Functions:\n")
     for name, func in functions:
-        docstring = inspect.getdoc(func) or "No documentation available."
-        print(f"{name}")
+        # Get the signature of the function
+        signature = inspect.signature(func)
+        print(f"{name}{signature}")
 
 def get_function_info(function):
     try:
