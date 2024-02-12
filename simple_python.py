@@ -442,7 +442,7 @@ def get_current_datetime():
     Example Usage:
     - current_datetime = get_current_datetime()
     """
-    return datetime.datetime.now()
+    return datetime.now()
 
 def get_current_time():
     """
@@ -454,7 +454,7 @@ def get_current_time():
     Example Usage:
     - current_time = get_current_time()
     """
-    return datetime.datetime.now().strftime("%H:%M:%S")
+    return datetime.now().strftime("%H:%M:%S")
 
 def get_current_date():
     """
@@ -466,7 +466,7 @@ def get_current_date():
     Example Usage:
     - current_date = get_current_date()
     """
-    return datetime.datetime.now().strftime("%Y-%m-%d")
+    return datetime.now().strftime("%Y-%m-%d")
 
 def print_alternating_colors(input_string):
     """
@@ -522,7 +522,7 @@ def print_fancy_menu(name="default name"):
     RESET_STYLE = "\033[0m"    # Reset to default terminal color
 
     # Dynamic elements
-    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    current_date = datetime.now().strftime("%Y-%m-%d")
     border_line = f"{BORDER_COLOR}{'*' * 50}{RESET_STYLE}"
     header_footer = f"{HEADER_COLOR}{'=' * 50}{RESET_STYLE}"
 
