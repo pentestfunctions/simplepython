@@ -17,6 +17,11 @@ Then, you can import the toolkit in your Python script as follows:
 from simple_python import *
 ```
 
+- You may also need:
+  `pip install mss requests`
+  `pip install ciphey`
+  `sudo apt install python3-ciphey`
+
 
 ## Available Functions:
 
