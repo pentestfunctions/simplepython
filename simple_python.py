@@ -29,6 +29,9 @@ def print_all_functions():
         print(f"{name}{signature}")
 
 def get_function_info(function):
+    """
+    Get information regarding the usage of any function
+    """
     try:
         # Check if the input is a string (function name) or a function object
         if isinstance(function, str):
@@ -646,6 +649,9 @@ def send_discord_webhook(webhook_url, content, username="Default Bot Name", avat
         print(f"Failed to send message. Status code: {response.status_code}, Response: {response.text}")
 
 def nmap_quick(target):
+    """
+    Quick standard portscan on 80/443
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -668,6 +674,9 @@ def nmap_quick(target):
         print(f"An error occurred: {e}")
 
 def nmap_disable_ping_quick(target):
+    """
+    Quick NMAP port scan with ping disabled
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -690,6 +699,9 @@ def nmap_disable_ping_quick(target):
         print(f"An error occurred: {e}")
 
 def nmap_all(target):
+    """
+    Runs a portscan using Nmap with intense methods
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -712,6 +724,9 @@ def nmap_all(target):
         print(f"An error occurred: {e}")
 
 def nmap_disable_ping_all(target):
+    """
+    Run a nmap port scan with ping disable
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -734,6 +749,9 @@ def nmap_disable_ping_all(target):
         print(f"An error occurred: {e}")
 
 def site_software(target):
+    """
+    Find site software using whatweb and HTTPx
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -777,6 +795,9 @@ def site_software(target):
         print(f"An error occurred: {e}")
 
 def decode_string(target_string):
+    """
+    Use cipher to decode string/cipher
+    """
     try:
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file_path = temp_file.name
@@ -807,6 +828,9 @@ def decode_string(target_string):
         print(f"An error occurred: {e}")
 
 def host_folder(target_port):
+    """
+    Host a simple http.server on the chosen port.
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try using WSL to run the nmap command
@@ -878,6 +902,9 @@ def find_local_resources(url):
         return []
     
 def print_all_in_list(list_data):
+    """
+    Prints all results in a variable/list which with alternating colors
+    """
     colors = ['\033[31m', '\033[34m']  # ANSI escape codes for red and blue
     current_color_index = 0
     print(f"\nAll data in the list:")
@@ -888,6 +915,9 @@ def print_all_in_list(list_data):
     print_divider('-')
 
 def directory_scan_quick(target):
+    """
+    Runs a directory scan against the target
+    """
     try:
         if platform.system() == "Windows":
             # If the OS is Windows, try use WSL to run the nmap command
@@ -913,9 +943,15 @@ def directory_scan_quick(target):
         print(f"An error occurred: {e}")
 
 def print_divider(symbol="-"):
+    """
+    Prints a divider
+    """
     print(50 * f"{symbol}")
 
 def osint_username(username):
+    """
+    Open a million tabs to OSINT a username
+    """
     try:
         urls = requests.get("https://raw.githubusercontent.com/pentestfunctions/WindowsLazyOsint/main/Usernames.txt").text.splitlines()
         username_list = [url.replace("$username", username) for url in urls]
@@ -926,6 +962,9 @@ def osint_username(username):
         print("Error occurred:", e)
 
 def load_csv_and_print_column(csv_file):
+    """
+    Loads a CSV file and allows you to choose which columns to print out.
+    """
     # Load the CSV file
     df = pd.read_csv(csv_file)
     
