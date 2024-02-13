@@ -11,6 +11,10 @@ import json
 import inspect
 from itertools import cycle
 import tempfile
+from urllib.parse import urljoin, urlparse
+from bs4 import BeautifulSoup
+import time
+import pandas as pd
 
 def print_all_functions():
     """
@@ -41,7 +45,7 @@ def get_function_info(function):
 
         # Get the documentation of the function
         docstring = inspect.getdoc(func)
-        
+        print(docstring)
         if docstring is None:
             return f"Documentation not available for function '{function}'."
         
@@ -759,7 +763,8 @@ def site_software(target):
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         
         print(f"\n\nHttpx Output:")
-        print(50 * "=")
+        print_divider('=')
+
         for line in process.stdout:
             print(line, end='')
 
@@ -800,3 +805,151 @@ def decode_string(target_string):
         print("ciphey command not found. Please make sure ciphey is installed.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def host_folder(target_port):
+    try:
+        if platform.system() == "Windows":
+            # If the OS is Windows, try using WSL to run the nmap command
+            command = ["wsl", "sudo", "python", "-m", "http.server", str(target_port)]
+        else:
+            command = ["sudo", "python", "-m", "http.server", str(target_port)]
+        
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        
+        print(f"Folder hosting Output:")
+        print_divider('=')
+
+        # Capture output until the process finishes
+        for line in process.stdout:
+            print(line, end='')
+        
+        # Wait for the process to finish
+        process.communicate()
+
+        if process.returncode != 0:
+            print(f"host_folder failed with return code {process.returncode}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def find_local_resources(url):
+    """
+    Fetches a webpage and identifies a wide range of local resources.
+
+    This includes scripts, stylesheets, icons, manifests, and other potential resources
+    specified in <link> and <meta> tags that might reference local resources.
+
+    :param url: URL of the webpage to fetch.
+    :return: A list of URLs for locally hosted resources.
+    """
+    try:
+        # Send a GET request to the URL
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Initialize an empty list to store the URLs of local resources
+        local_resources = []
+
+        # Define the domain of the original URL
+        domain = urlparse(url).netloc
+
+        # Process <script> tags with src attributes
+        for script in soup.find_all('script', src=True):
+            src = script['src']
+            absolute_src = urljoin(url, src)
+            if urlparse(absolute_src).netloc == domain:
+                local_resources.append(absolute_src)
+
+        # Process <link> tags with href attributes for various types of resources
+        for link in soup.find_all('link', href=True):
+            href = link['href']
+            absolute_href = urljoin(url, href)
+            if urlparse(absolute_href).netloc == domain:
+                local_resources.append(absolute_href)
+
+        # Additional processing for <meta> tags or other tags could be added here
+
+        return local_resources
+    except requests.RequestException as e:
+        print(f"Error fetching the page: {e}")
+        return []
+    
+def print_all_in_list(list_data):
+    colors = ['\033[31m', '\033[34m']  # ANSI escape codes for red and blue
+    current_color_index = 0
+    print(f"\nAll data in the list:")
+    print_divider('-')
+    for result in list_data:
+        print(colors[current_color_index] + result + '\033[0m')  # Reset color after printing
+        current_color_index = (current_color_index + 1) % 2  # Toggle between 0 and 1 for red and blue
+    print_divider('-')
+
+def directory_scan_quick(target):
+    try:
+        if platform.system() == "Windows":
+            # If the OS is Windows, try use WSL to run the nmap command
+            command = ["wsl", "dirsearch", "-u", target, "-q"]
+        else:
+            # For other operating systems, use the nmap command directly
+            command = ["dirsearch", "-u", target, "-q"]
+    
+        print_divider('x')
+        print(f"Running dirsearch against {target}")
+        print_divider('x')
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+        for line in process.stdout:
+            print(line, end='')
+
+        process.communicate()  # Wait for the process to finish
+        if process.returncode != 0:
+            print(f"directory_scan_quick failed with return code {process.returncode}")
+    except FileNotFoundError:
+        print("dirsearch command not found. Please make sure dirsearch is installed.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def print_divider(symbol="-"):
+    print(50 * f"{symbol}")
+
+def osint_username(username):
+    try:
+        urls = requests.get("https://raw.githubusercontent.com/pentestfunctions/WindowsLazyOsint/main/Usernames.txt").text.splitlines()
+        username_list = [url.replace("$username", username) for url in urls]
+        for url in username_list:
+            time.sleep(1.1)
+            os.system(f"start {url}")
+    except Exception as e:
+        print("Error occurred:", e)
+
+def load_csv_and_print_column(csv_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file)
+    
+    # Print the options for the user
+    print("Options:")
+    for i, col in enumerate(df.columns, start=1):  # Start enumeration from 1
+        print(f"{i}. {col}")
+    
+    # Ask the user for input
+    choice = input("Choose a column by entering its number: ")
+    
+    # Check if the input is valid
+    try:
+        choice = int(choice)
+        if choice < 1 or choice > len(df.columns):
+            print("Invalid choice!")
+            return
+    except ValueError:
+        print("Invalid choice! Please enter a number.")
+        return
+    clear_screen()
+    # Print the selected column without index and with consistent spacing
+    selected_column = df.columns[choice - 1]
+    print(f"Selected column: {selected_column}")
+    column_data = df[selected_column].astype(str)  # Convert to string to use str.ljust()
+    max_length = column_data.str.len().max()  # Find the length of the longest string
+    print(column_data.apply(lambda x: x.ljust(max_length)).to_string(index=False))
