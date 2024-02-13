@@ -10,6 +10,9 @@ Clone this repository using git:
 ```
 git clone https://github.com/pentestfunctions/simplepython
 ```
+```
+pip install -r requirements.txt
+```
 
 Then, you can import the toolkit in your Python script as follows:
 
@@ -18,8 +21,8 @@ from simple_python import *
 ```
 
 - You may also need:
-  `pip install mss requests`
   `pip install ciphey`
+  OR
   `sudo apt install python3-ciphey`
 
 
